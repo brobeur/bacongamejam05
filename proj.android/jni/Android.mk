@@ -12,7 +12,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 	        ../../Classes/Runner.cpp \
         ../../Classes/TitleScreen.cpp \
         ../../Classes/GameState.cpp \
-        ../../Classes/BackgroundPanel.cpp
+        ../../Classes/BackgroundPanel.cpp \
         ../../Classes/WallTrap.cpp \
         ../../Classes/rs_geometry.c \
         ../../Classes/rs_util.c
