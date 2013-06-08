@@ -1,3 +1,5 @@
+#include "GameState.h"
+
 #include "BackgroundPanel.h"
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -23,9 +25,9 @@ const char* lightpanelpngs[] = {
    "lightsout-1-color.png"
 };
 
-void BackgroundPanel::toggle()
+void BackgroundPanel::toggleOn(bool on)
 {
-   m_bLightOn = !m_bLightOn;
+   m_bLightOn = on;
    // flip tex
    const char** namelist = m_bLightOn ? lightpanelpngs : darkpanelpngs;
    CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addImage(namelist[0]);
@@ -44,7 +46,10 @@ void BackgroundPanel::toggle()
 BackgroundPanel* BackgroundPanel::createHack()
 {
    BackgroundPanel* panel = new BackgroundPanel;
-   if (panel && panel->initWithFile(darkpanelpngs[0])) {
+   panel->m_bLightOn = STATE->isLightOn();
+   // flip tex
+   const char** namelist = panel->m_bLightOn ? lightpanelpngs : darkpanelpngs;
+   if (panel && panel->initWithFile(namelist[0])) {
       // set the scale to match the size in height
       CCSize s = CCDirector::sharedDirector()->getWinSize();
       panel->setScale(.8 * s.height / panel->getContentSize().height);

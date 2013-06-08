@@ -17,7 +17,7 @@ class BackgroundPanel : public cocos2d::CCSprite
    virtual ~BackgroundPanel();
    static BackgroundPanel* createHack();
    //bool init();
-   void toggle();
+   void toggleOn(bool on);
  private:
    bool m_bLightOn;
 };
