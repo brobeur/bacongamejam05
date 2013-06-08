@@ -30,6 +30,7 @@ class GameState
 
    void restartGame();
    bool isDead(){return m_bDead;}
+   int inactiveOpacity();
  private:
    static GameState* pInst;
    GameState();

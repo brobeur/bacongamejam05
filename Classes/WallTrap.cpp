@@ -56,7 +56,7 @@ void WallTrap::toggleOn(bool on)
    m_bLightOn = on;
    // later do complete invisible?
    // for now opacity for debug
-   setOpacity(isDangerous() ? 255 : 50);
+   setOpacity(isDangerous() ? 255 : STATE->inactiveOpacity());
 }
 
 

@@ -43,6 +43,14 @@ static float time_to_dist(float t)
    return kAccelRate * t * t + kInitialSpeed * t;
 }
 
+#define kNewbieSecs 60.
+// opacity is out of 255
+#define kNewbieOpacity 60
+int GameState::inactiveOpacity()
+{
+   return SIMP_MAX(0., 1. - (m_fSecondsAlive / kNewbieSecs)) * kNewbieOpacity;
+}
+
 void GameState::restartGame()
 {
    // only restart if the user had time to see the death screen
