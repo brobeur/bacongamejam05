@@ -47,7 +47,7 @@ BackgroundPanel* BackgroundPanel::createHack()
    if (panel && panel->initWithFile(darkpanelpngs[0])) {
       // set the scale to match the size in height
       CCSize s = CCDirector::sharedDirector()->getWinSize();
-      panel->setScale(s.height / panel->getContentSize().height);
+      panel->setScale(.8 * s.height / panel->getContentSize().height);
 
       panel->autorelease();
       return panel;
