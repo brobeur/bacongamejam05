@@ -9,7 +9,10 @@
 #include "RSCCBMacros.h"
 
 #include "TitleScreen.h"
+#include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+USING_NS_CC;
+USING_NS_CC_EXT;
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -21,6 +24,26 @@ TitleScreen::TitleScreen()
 TitleScreen::~TitleScreen()
 {
 }
+
+SEL_MenuHandler TitleScreen::onResolveCCBCCMenuItemSelector(CCObject * pTarget, const char * pSelectorName) {
+   return NULL;    
+}
+
+
+SEL_CCControlHandler TitleScreen::onResolveCCBCCControlSelector(CCObject * pTarget, const char * pSelectorName) {
+   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", TitleScreen::onStart);
+    
+   return NULL;
+}
+
+void TitleScreen::onStart(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent)
+{
+   // load hello world scene
+   CCScene *pScene = HelloWorld::scene();
+
+   CCDirector::sharedDirector()->replaceScene(pScene);
+}
+
 
 CCScene* TitleScreen::scene()
 {

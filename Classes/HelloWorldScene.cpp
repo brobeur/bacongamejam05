@@ -8,6 +8,8 @@
 
 #include "RSCCBMacros.h"
 
+#include "GameState.h"
+#include "Runner.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
@@ -88,7 +90,6 @@ HelloWorld::~HelloWorld()
    }
     
    cpSpaceFree( m_pSpace );
-   m_pLabel->release();    
 }
 
 CCScene* HelloWorld::scene()
@@ -97,16 +98,17 @@ CCScene* HelloWorld::scene()
    CCScene *scene = CCScene::create();
 
    // 'layer' is an autorelease object.
-   HelloWorld *layer = HelloWorldLoader::loadFromFile();//HelloWorld::create();
-
+   HelloWorld *layer = HelloWorld::createHack();//HelloWorldLoader::loadFromFile();//HelloWorld::create();
    // add layer as a child to scene
    scene->addChild(layer);
 
+   layer->extraSetup();
 
    // return the scene
    return scene;
 }
 
+/*
 bool HelloWorld::init()
 {
    if (!CCLayer::init())
@@ -115,7 +117,6 @@ bool HelloWorld::init()
       }
 
    // enable events
-   setTouchEnabled(true);
    setAccelerometerEnabled(true);
 
    CCSize s = CCDirector::sharedDirector()->getWinSize();
@@ -143,17 +144,17 @@ bool HelloWorld::init()
 
    //setKeyboardEnabled(true);
 
+   
    m_pLabel = CCLabelTTF::create("Please press any key: ", "Arial", 22);
    m_pLabel->setPosition(ccp(s.width / 2, s.height / 2));
    addChild(m_pLabel, 0);
     
    m_pLabel->retain();
+   
 
-
-   scheduleUpdate();
 
    return true;
-}
+}*/
 
 void HelloWorld::keyPressed(int keyCode)
 {
@@ -161,9 +162,9 @@ void HelloWorld::keyPressed(int keyCode)
 
    // if ascii a/z print it
    if (keyCode >= 'A' && keyCode <= 'z') {
-      char buf[128];
-      snprintf(buf, 127, "%s%c", m_pLabel->getString(), (char)keyCode);
-      m_pLabel->setString(buf);
+      //char buf[128];
+      //snprintf(buf, 127, "%s%c", m_pLabel->getString(), (char)keyCode);
+      //m_pLabel->setString(buf);
    }
 
 }
@@ -173,6 +174,11 @@ void  HelloWorld::keyReleased(int keyCode)
    CCLog("Key with keycode %d released", keyCode);
 }
 
+HelloWorld* HelloWorld::createHack()
+{
+   HelloWorld* h = HelloWorld::create();
+   return h;
+}
 
 void HelloWorld::initPhysics()
 {
@@ -208,6 +214,33 @@ void HelloWorld::initPhysics()
    }
 }
 
+
+// 
+void HelloWorld::extraSetup()
+{
+   setTouchEnabled(true);
+   
+   initPhysics();
+   CCSize s = CCDirector::sharedDirector()->getWinSize();
+
+   
+   Runner* runner = Runner::createHack();//
+   //Runner* runner = RunnerLoader::loadFromFile();
+   if (runner) {
+   runner->setPosition(ccp(s.width / 8, s.height / 4));
+   addChild(runner, 0);
+   scheduleUpdate();
+
+   STATE->setLayer(this);
+   STATE->setRunner(runner);
+   CCLog("updateschedule");
+   } else {
+   CCLog("RUNNELOADFAIL");
+
+   }
+
+}
+
 void HelloWorld::update(float delta)
 {
    // Should use a fixed size step based on the animation interval.
@@ -217,46 +250,8 @@ void HelloWorld::update(float delta)
    for(int i=0; i<steps; i++){
       cpSpaceStep(m_pSpace, dt);
    }
-}
 
-void HelloWorld::addNewSpriteAtPosition(CCPoint pos)
-{
-   int posx, posy;
-
-   CCNode *parent = getChildByTag(kTagParentNode);
-
-   posx = CCRANDOM_0_1() * 200.0f;
-   posy = CCRANDOM_0_1() * 200.0f;
-
-   posx = (posx % 4) * 85;
-   posy = (posy % 3) * 121;
-
-   ChipmunkPhysicsSprite *sprite = new ChipmunkPhysicsSprite();
-   sprite->initWithTexture(m_pSpriteTexture, CCRectMake(posx, posy, 85, 121));
-   sprite->autorelease();
-
-   parent->addChild(sprite);
-
-   sprite->setPosition(pos);
-
-   int num = 4;
-   cpVect verts[] = {
-      cpv(-24,-54),
-      cpv(-24, 54),
-      cpv( 24, 54),
-      cpv( 24,-54),
-   };
-
-   cpBody *body = cpBodyNew(1.0f, cpMomentForPoly(1.0f, num, verts, cpvzero));
-
-   body->p = cpv(pos.x, pos.y);
-   cpSpaceAddBody(m_pSpace, body);
-
-   cpShape* shape = cpPolyShapeNew(body, num, verts, cpvzero);
-   shape->e = 0.5f; shape->u = 0.5f;
-   cpSpaceAddShape(m_pSpace, shape);
-
-   sprite->setPhysicsBody(body);
+   STATE->update(delta);
 }
 
 void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
@@ -276,7 +271,8 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
          location = CCDirector::sharedDirector()->convertToGL(location);
 
-         addNewSpriteAtPosition( location );
+         //addNewSpriteAtPosition( location );
+         STATE->toggleLight();
       }
 }
 

@@ -25,22 +25,26 @@ class HelloWorld : public cocos2d::CCLayer {
 public:
    HelloWorld();
    ~HelloWorld();
-   bool init();
+   //bool init();
    static cocos2d::CCScene* scene();
-   CREATE_FUNC(HelloWorld);
+   CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(HelloWorld, create);
     
    virtual void keyPressed(int keyCode);
    virtual void keyReleased(int keyCode);
 
+   void extraSetup();
+
    void initPhysics();
    void addNewSpriteAtPosition(cocos2d::CCPoint p);
-   void update(float dt);
+   virtual void update(float dt);
    virtual void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
    virtual void didAccelerate(cocos2d::CCAcceleration* pAccelerationValue);
 
+   static HelloWorld* createHack();
+
 private:
-   cocos2d::CCTexture2D* m_pSpriteTexture; // weak ref
-   cocos2d::CCLabelTTF* m_pLabel;
+   //cocos2d::CCTexture2D* m_pSpriteTexture; // weak ref
+   //cocos2d::CCLabelTTF* m_pLabel;
    cpSpace* m_pSpace; // strong ref
    cpShape* m_pWalls[4];
 };

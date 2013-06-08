@@ -4,7 +4,11 @@ INCLUDES = -I.. -I../Classes
 
 SOURCES = main.cpp \
         ../Classes/AppDelegate.cpp \
-        ../Classes/HelloWorldScene.cpp
+        ../Classes/HelloWorldScene.cpp \
+        ../Classes/Runner.cpp \
+        ../Classes/TitleScreen.cpp \
+        ../Classes/GameState.cpp \
+        ../Classes/BackgroundPanel.cpp
 
 COCOS_ROOT = ../../..
 
