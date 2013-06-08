@@ -10,6 +10,7 @@ SOURCES = main.cpp \
         ../Classes/GameState.cpp \
         ../Classes/BackgroundPanel.cpp \
         ../Classes/WallTrap.cpp \
+        ../Classes/rs_geometry.c \
         ../Classes/rs_util.c
 
 COCOS_ROOT = ../../..

@@ -2,6 +2,7 @@
 #include "cocos-ext.h"
 
 #include "rs_util.h"
+#include "rs_geometry.h"
 
 #include "GameState.h"
 #include "Runner.h"
@@ -71,6 +72,15 @@ void GameState::update(float dt)
 
 
    // traps
+   RSCube runnerCube;
+   runnerCube.pos.x = m_pRunner->getPosition().x;
+   runnerCube.pos.y = m_pRunner->getPosition().y;
+   runnerCube.pos.z = 0.;
+
+   runnerCube.size.x = m_pRunner->getWidth();
+   runnerCube.size.y = m_pRunner->getHeight();
+   runnerCube.size.z = 1.;
+
    m_fDistToNextTrap -= m_pRunner->getSpeed() * dt;
    for (int i = 0; i < (int)m_vTraps.size(); i++) {
       WallTrap* trap;
@@ -79,6 +89,35 @@ void GameState::update(float dt)
       pos.x -= dt * m_pRunner->getSpeed();
       trap->setPosition(pos); 
 
+      // check for overlap
+      if (trap->isDangerous()) {
+         RSCube trapCube;
+         trapCube.pos.x = pos.x;
+         trapCube.pos.y = pos.y;
+         trapCube.pos.z = 0.;
+         trapCube.size.x = trap->getWidth();
+         trapCube.size.y = trap->getScaleY() * trap->getContentSize().height;
+         trapCube.size.z = 1.;
+
+         int res;
+         if (rs_cube_overlaps(&runnerCube, &trapCube, &res)) {
+            // collide
+            // flash red or something
+            CCLabelTTF* owLabel;
+            owLabel = CCLabelTTF::create("OWW!", "Minecraftia-Regular", 40);
+            owLabel->setPosition(ccp(runnerCube.pos.x, runnerCube.pos.y + runnerCube.size.y * .7));
+
+            CCFiniteTimeAction *seq = CCSequence::createWithTwoActions(
+                                                                       CCMoveTo::create(.1f, ccp(runnerCube.pos.x, runnerCube.pos.y + runnerCube.size.y * .9 + 100)),
+                                                                       CCCallFuncN::create(owLabel, callfuncN_selector(CCNode::removeFromParentAndCleanup))
+                                                                       
+                                                                       );
+            m_pLayer->addChild(owLabel);
+            owLabel->setColor(ccc3(255,0,0));
+            owLabel->runAction(seq);
+
+         }
+      }
       if (pos.x + trap->getWidth() * .5 < 0) {
          trap->removeFromParent();
          trap->release();
@@ -111,9 +150,7 @@ void GameState::update(float dt)
       }
 
       // do some 
-      m_fDistToNextTrap = runnerWidth + trapWidth + randfloat(.5) * s.width / m_fZoom;
-      
-      
+      m_fDistToNextTrap = runnerWidth + trapWidth + randfloat(.5) * s.width / m_fZoom;      
    }
 
    // faster and faster at 1 pixel / s*s

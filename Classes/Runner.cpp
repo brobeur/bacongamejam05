@@ -31,6 +31,19 @@ Runner* Runner::createHack()
    return runner;
 }
 
+float Runner::getWidth()
+{
+   CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
+   return s->getContentSize().width * s->getScaleX() * getScaleX();
+}
+
+float Runner::getHeight()
+{
+   CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
+   return s->getContentSize().height * s->getScaleY() * getScaleY();
+}
+
+
 /*
 bool Runner::init()
 {
