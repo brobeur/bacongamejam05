@@ -8,7 +8,9 @@ SOURCES = main.cpp \
         ../Classes/Runner.cpp \
         ../Classes/TitleScreen.cpp \
         ../Classes/GameState.cpp \
-        ../Classes/BackgroundPanel.cpp
+        ../Classes/BackgroundPanel.cpp \
+        ../Classes/WallTrap.cpp \
+        ../Classes/rs_util.c
 
 COCOS_ROOT = ../../..
 
@@ -37,5 +39,9 @@ $(OBJ_DIR)/%.o: %.cpp $(CORE_MAKEFILE_LIST)
 	$(LOG_CXX)$(CXX) $(CXXFLAGS) $(INCLUDES) $(DEFINES) $(VISIBILITY) -c $< -o $@
 
 $(OBJ_DIR)/%.o: ../%.cpp $(CORE_MAKEFILE_LIST)
+	@mkdir -p $(@D)
+	$(LOG_CXX)$(CXX) $(CXXFLAGS) $(INCLUDES) $(DEFINES) $(VISIBILITY) -c $< -o $@
+
+$(OBJ_DIR)/%.o: ../%.c $(CORE_MAKEFILE_LIST)
 	@mkdir -p $(@D)
 	$(LOG_CXX)$(CXX) $(CXXFLAGS) $(INCLUDES) $(DEFINES) $(VISIBILITY) -c $< -o $@
