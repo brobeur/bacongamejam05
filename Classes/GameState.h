@@ -56,6 +56,9 @@ class GameState
    float m_fDist; // number of seconds you can take hits
    float m_fMaxDist; // number of seconds you can take hits
    bool m_bDead;
+
+   // timer to prevent sudden click
+   float m_fDeadSecs;
 };
 
 #endif

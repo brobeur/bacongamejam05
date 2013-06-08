@@ -21,6 +21,7 @@ GameState:: GameState()
 
 void GameState::init()
 {
+   m_fDeadSecs = 0.;
    m_fZoom = 1.;
    m_bLightOn = false;
    m_pLayer = NULL;
@@ -44,6 +45,11 @@ static float time_to_dist(float t)
 
 void GameState::restartGame()
 {
+   // only restart if the user had time to see the death screen
+   if (m_bDead && m_fDeadSecs < 1.5)
+      return;
+
+   m_fDeadSecs = 0.;
    m_fHealth = kMaxHealth; // number of seconds you can take hits
    m_pRunner->resetSpeed();
    m_fSecondsAlive *= 0.5;
@@ -72,6 +78,10 @@ void GameState::restartGame()
 void GameState::update(float dt)
 {
    CCSize s = CCDirector::sharedDirector()->getWinSize();
+   if (m_bDead) {
+      m_fDeadSecs += dt;
+   }
+
    // if health is gone you're dead
    if (m_fHealth <= 0 && !m_bDead) {
       CCLabelTTF* deadLabel = CCLabelTTF::create("GAME OVER", "fonts/Minecraftia.ttf", 40);
@@ -215,7 +225,7 @@ void GameState::update(float dt)
       // at most it should be a quarter i guess
       CCSize s = CCDirector::sharedDirector()->getWinSize();
       float trapWidth = (randfloat(.35) + .05) * s.width / m_fZoom;
-      float runnerWidth = .1;
+      float runnerWidth = m_pRunner->getWidth();
 
       // for now randflip it for light
       WallTrap* trap = WallTrap::createHack(randint(2));
@@ -231,7 +241,7 @@ void GameState::update(float dt)
       }
 
       // do some 
-      m_fDistToNextTrap = runnerWidth + trapWidth + randfloat(.5) * s.width / m_fZoom;      
+      m_fDistToNextTrap = runnerWidth * 1.2 + trapWidth + randfloat(.5) * s.width / m_fZoom;      
    }
 
    // faster and faster at 1 pixel / s*s
