@@ -19,8 +19,11 @@ class Runner : public cocos2d::CCNode
    static Runner* createHack();
    float getSpeed(){return m_fSpeed;}
    void addSpeed(float s){m_fSpeed += s;}
+   void resetSpeed();
    float getWidth();
    float getHeight();
+
+   void setHealth(float ratio);//1. best. 0. dead
    //bool init();
  private:
    float m_fSpeed;

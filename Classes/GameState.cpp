@@ -1,5 +1,3 @@
-#include "cocos2d.h"
-#include "cocos-ext.h"
 
 #include "rs_util.h"
 #include "rs_geometry.h"
@@ -11,6 +9,8 @@
 #include "BackgroundPanel.h"
 USING_NS_CC;
 USING_NS_CC_EXT;
+
+#define kAccelRate (4)
 
 GameState* GameState::pInst;
 
@@ -26,10 +26,80 @@ void GameState::init()
    m_pLayer = NULL;
    m_pRunner = NULL;
    m_fDistToNextTrap = 400.;
+
+   m_fSecondsAlive = 0.;
+   m_fMaxSecondsAlive = 0.;
+   m_fHealth = kMaxHealth; // number of seconds you can take hits
+   m_fDist = 0.;
+   m_fMaxDist = 0.;
+   m_bDead = false;
+}
+
+static float time_to_dist(float t)
+{
+   // the position equation is
+   // x = kAccelRate * t^2 + kInitialSpeed * t
+   return kAccelRate * t * t + kInitialSpeed * t;
+}
+
+void GameState::restartGame()
+{
+   m_fHealth = kMaxHealth; // number of seconds you can take hits
+   m_pRunner->resetSpeed();
+   m_fSecondsAlive *= 0.5;
+   m_fDist = time_to_dist(m_fSecondsAlive);
+
+   m_pRunner->addSpeed(m_fSecondsAlive * .5 *  kAccelRate);
+
+
+   m_bDead = false;
+
+   // get rid of previous traps
+   for (int i = 0; i < (int)m_vTraps.size(); i++) {
+      WallTrap* trap;
+      trap = m_vTraps[i];
+
+      trap->removeFromParent();
+      trap->release();
+      m_vTraps.erase(m_vTraps.begin() + i);
+      i--; 
+   }   
+
+   m_pTopLayer->removeAllChildren();
+   m_pRunner->setHealth(1.);
 }
 
 void GameState::update(float dt)
 {
+   CCSize s = CCDirector::sharedDirector()->getWinSize();
+   // if health is gone you're dead
+   if (m_fHealth <= 0 && !m_bDead) {
+      CCLabelTTF* deadLabel = CCLabelTTF::create("GAME OVER", "fonts/Minecraftia.ttf", 40);
+      deadLabel->setPosition(ccp(s.width / 2, s.height * .9));
+      deadLabel->setColor(ccc3(255,0,0));
+      m_pTopLayer->addChild(deadLabel);
+
+      char buf[256];
+      snprintf(buf, 255, "Distance reached: %i pixels", (int)m_fDist);
+      deadLabel = CCLabelTTF::create(buf, "fonts/Minecraftia.ttf", 28);
+      deadLabel->setPosition(ccp(s.width / 2, s.height * .6));
+      deadLabel->setColor(ccc3(255,0,0));
+
+      m_pTopLayer->addChild(deadLabel);
+      m_bDead = true;
+
+      // retry from half way
+      snprintf(buf, 255, "Click to retry from %i pixels", (int)time_to_dist(m_fSecondsAlive * .5));
+
+      deadLabel = CCLabelTTF::create(buf, "fonts/Minecraftia.ttf", 28);
+      deadLabel->setPosition(ccp(s.width / 2, s.height * .2));
+      deadLabel->setColor(ccc3(255,0,0));
+      m_pTopLayer->addChild(deadLabel);
+
+      return;
+   }
+
+
    // if we need more objects add shit
    float farX = 0;
    if (m_vObjs.size()) {
@@ -41,7 +111,6 @@ void GameState::update(float dt)
 
       // add shit
       BackgroundPanel* pan = BackgroundPanel::createHack();
-      CCSize s = CCDirector::sharedDirector()->getWinSize();
 
       // set pos to overlap
       pan->setPosition(ccp(farX + pan->getScale() * pan->getContentSize().width / 2,
@@ -90,7 +159,7 @@ void GameState::update(float dt)
       trap->setPosition(pos); 
 
       // check for overlap
-      if (trap->isDangerous()) {
+      if (trap->isDangerous() && !m_bDead) {
          RSCube trapCube;
          trapCube.pos.x = pos.x;
          trapCube.pos.y = pos.y;
@@ -104,7 +173,7 @@ void GameState::update(float dt)
             // collide
             // flash red or something
             CCLabelTTF* owLabel;
-            owLabel = CCLabelTTF::create("OWW!", "Minecraftia-Regular", 40);
+            owLabel = CCLabelTTF::create("OWW!", "fonts/Minecraftia.ttf", 40);
             owLabel->setPosition(ccp(runnerCube.pos.x, runnerCube.pos.y + runnerCube.size.y * .7));
 
             CCFiniteTimeAction *seq = CCSequence::createWithTwoActions(
@@ -115,6 +184,20 @@ void GameState::update(float dt)
             m_pLayer->addChild(owLabel);
             owLabel->setColor(ccc3(255,0,0));
             owLabel->runAction(seq);
+
+            // shake them
+            seq = CCSequence::createWithTwoActions(                             CCMoveTo::create(dt,
+                                                                                                 ccp(trapCube.pos.x + randint(15) - 7, trapCube.pos.y + randint(15) - 7)),
+                                                                                CCMoveTo::create(dt,                                                                    ccp(trapCube.pos.x, trapCube.pos.y)));
+ 
+            trap->runAction(seq);
+            
+            //trap->release();
+            //m_vTraps.erase(m_vTraps.begin() + i);
+
+            // subtract health
+            m_fHealth -= dt;
+            m_pRunner->setHealth( m_fHealth / kMaxHealth);
 
          }
       }
@@ -154,9 +237,13 @@ void GameState::update(float dt)
    }
 
    // faster and faster at 1 pixel / s*s
-   if (m_pRunner->getSpeed() < 2000.)
-      m_pRunner->addSpeed(dt * 4);
+   if (!m_bDead) {
+      m_fDist += m_pRunner->getSpeed() * dt;
+      m_fSecondsAlive += dt;
+   }
 
+   if (m_pRunner->getSpeed() < 2000.)
+      m_pRunner->addSpeed(dt * kAccelRate);
 
 }
 

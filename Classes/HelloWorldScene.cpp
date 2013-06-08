@@ -103,6 +103,12 @@ CCScene* HelloWorld::scene()
    // add layer as a child to scene
    scene->addChild(layer);
 
+   CCLayer* topLayer = CCLayer::create();
+   topLayer->setPosition(layer->getPosition());
+   topLayer->setContentSize(layer->getContentSize());
+   scene->addChild(topLayer);
+   STATE->setTopLayer(topLayer);
+
    layer->extraSetup();
 
    // return the scene
@@ -276,7 +282,11 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
          location = CCDirector::sharedDirector()->convertToGL(location);
 
          //addNewSpriteAtPosition( location );
-         STATE->toggleLight();
+         if (STATE->isDead())
+            STATE->restartGame();
+         else
+            STATE->toggleLight();
+         
       }
 }
 

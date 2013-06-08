@@ -56,7 +56,7 @@ inline double rootsumsquared(double pair[2])
    return  sqrt(pair[0] * pair[0] + pair[1] * pair[1]);
 }
 
-inline double round(double r)
+inline double rs_round(double r)
 {
    return r > 0.0 ? floor(r + 0.5) : ceil(r - 0.5);
 }

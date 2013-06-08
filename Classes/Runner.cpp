@@ -1,12 +1,14 @@
 //Runner.cpp
 
+#include "rs_util.h"
+#include "GameState.h"
 #include "Runner.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 
 Runner::Runner() :
-   m_fSpeed(200.)
+   m_fSpeed(kInitialSpeed)
 {
 
 }
@@ -15,7 +17,10 @@ Runner::~Runner()
 {
 
 }
-
+void Runner::resetSpeed()
+{
+   m_fSpeed = kInitialSpeed;
+}
 Runner* Runner::createHack()
 {
    Runner* runner = Runner::create();
@@ -29,6 +34,12 @@ Runner* Runner::createHack()
    // make height a function of window
 
    return runner;
+}
+
+void Runner::setHealth(float ratio)
+{
+   CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
+   s->setOpacity(SIMP_MAX(0., ratio) * 255);
 }
 
 float Runner::getWidth()

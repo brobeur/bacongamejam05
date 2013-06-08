@@ -43,7 +43,7 @@ double dbtoamp(double);
 double sumsquared(double pair[2]);
 double rootsumsquared(double pair[2]);
 
-double round(double r);
+double rs_round(double r);
 
 float randfloatexp2(float under, int divs);
 float exp2cursor(float cursor);
