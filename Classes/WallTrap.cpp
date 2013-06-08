@@ -29,11 +29,9 @@ WallTrap* WallTrap::createHack(bool light)
       w->m_bLight = light;
       w->toggleOn(STATE->isLightOn());
 
-      w->autorelease();
       return w;
    }
-   CC_SAFE_DELETE(w);
-   return w;
+   return NULL;
 }
 
 void WallTrap::setWidth(float width)

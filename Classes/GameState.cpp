@@ -192,9 +192,6 @@ void GameState::update(float dt)
  
             trap->runAction(seq);
             
-            //trap->release();
-            //m_vTraps.erase(m_vTraps.begin() + i);
-
             // subtract health
             m_fHealth -= dt;
             m_pRunner->setHealth( m_fHealth / kMaxHealth);
