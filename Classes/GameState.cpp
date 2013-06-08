@@ -10,7 +10,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-#define kAccelRate (4)
+#define kAccelRate (8)
 
 GameState* GameState::pInst;
 
@@ -107,7 +107,7 @@ void GameState::update(float dt)
       farX += m_vObjs[m_vObjs.size() -1]->getScale() * m_vObjs[m_vObjs.size() -1]->getContentSize().width * .5;
    }
 
-   if (farX < 1000) {
+   if (farX < s.width) {
 
       // add shit
       BackgroundPanel* pan = BackgroundPanel::createHack();
@@ -131,7 +131,8 @@ void GameState::update(float dt)
       pos.x -= dt * m_pRunner->getSpeed() * .7;
       m_vObjs[i]->setPosition(pos); 
 
-      if (pos.x < -1000) { // FUCKINGBADBHACK
+      if (pos.x + (m_vObjs[i]->getContentSize().width * 
+                   m_vObjs[i]->getScaleX() * .5) < 0) {
          m_vObjs[i]->removeFromParent();
          m_vObjs[i]->release();
          m_vObjs.erase(m_vObjs.begin() + i);
