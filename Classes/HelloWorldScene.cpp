@@ -98,7 +98,8 @@ CCScene* HelloWorld::scene()
    CCScene *scene = CCScene::create();
 
    // 'layer' is an autorelease object.
-   HelloWorld *layer = HelloWorld::createHack();//HelloWorldLoader::loadFromFile();//HelloWorld::create();
+   HelloWorld *layer = HelloWorld::createHack();
+   //HelloWorld *layer = HelloWorldLoader::loadFromFile();//HelloWorld::create();
    // add layer as a child to scene
    scene->addChild(layer);
 
@@ -234,6 +235,9 @@ void HelloWorld::extraSetup()
    STATE->setLayer(this);
    STATE->setRunner(runner);
    CCLog("updateschedule");
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgjdemo.mp3", true);
+
    } else {
    CCLog("RUNNELOADFAIL");
 
