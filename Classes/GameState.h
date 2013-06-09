@@ -25,14 +25,14 @@ class GameState
    void toggleLight();
    void setLayer(HelloWorld* layer){m_pLayer = layer;}
    void setTopLayer(cocos2d::CCLayer* layer){m_pTopLayer = layer;}
-   void setRunner(Runner* r){m_pRunner = r;}
+   void setRunner(Runner* r);
    void update(float dt);
    bool isLightOn(){return m_bLightOn;}
 
    void restartGame();
    bool isDead(){return m_bDead;}
    int inactiveOpacity();
-
+   bool canRestart();
    float secsSinceSwitch() {return m_fSecsSinceSwitch;}
  private:
    static GameState* pInst;

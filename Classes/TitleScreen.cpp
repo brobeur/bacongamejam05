@@ -32,6 +32,7 @@ SEL_MenuHandler TitleScreen::onResolveCCBCCMenuItemSelector(CCObject * pTarget, 
 
 SEL_CCControlHandler TitleScreen::onResolveCCBCCControlSelector(CCObject * pTarget, const char * pSelectorName) {
    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", TitleScreen::onStart);
+   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onQuit", TitleScreen::onQuit);
     
    return NULL;
 }
@@ -42,6 +43,11 @@ void TitleScreen::onStart(CCObject * pSender, cocos2d::extension::CCControlEvent
    CCScene *pScene = HelloWorld::scene();
 
    CCDirector::sharedDirector()->replaceScene(pScene);
+}
+
+void TitleScreen::onQuit(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent)
+{
+   CCDirector::sharedDirector()->end();
 }
 
 

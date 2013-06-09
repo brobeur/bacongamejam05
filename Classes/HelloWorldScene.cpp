@@ -9,6 +9,7 @@
 #include "RSCCBMacros.h"
 
 #include "GameState.h"
+#include "TitleScreen.h"
 #include "Runner.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
@@ -322,9 +323,15 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
          location = CCDirector::sharedDirector()->convertToGL(location);
 
          //addNewSpriteAtPosition( location );
-         if (STATE->isDead())
-            STATE->restartGame();
-         else
+         if (STATE->isDead()) {
+            if (STATE->canRestart()) {
+               STATE->restartGame();
+               // just quit
+               CCScene *pScene = TitleScreen::scene();
+
+               CCDirector::sharedDirector()->replaceScene(pScene);
+            }
+         } else
             STATE->toggleLight();
          
       }

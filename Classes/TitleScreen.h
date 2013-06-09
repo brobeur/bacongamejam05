@@ -22,6 +22,7 @@ public:
    virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, const char * pSelectorName);
 
    void onStart(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
+   void onQuit(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
 private:
 };

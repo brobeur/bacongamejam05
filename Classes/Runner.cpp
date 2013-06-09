@@ -24,6 +24,7 @@ void Runner::resetSpeed()
 
 static GLint myUniformLocation;
 
+static CCGLProgram *pBWShaderProgram;
 Runner* Runner::createHack()
 {
    Runner* runner = Runner::create();
@@ -51,15 +52,16 @@ Runner* Runner::createHack()
    runner->setScale(.3 * s.height / sprite->getContentSize().height);
 
    // use a shader program for grey
-   CCGLProgram *pBWShaderProgram = new CCGLProgram();
-   pBWShaderProgram->initWithVertexShaderFilename("Grey.vsh", "Grey.fsh");
-   pBWShaderProgram->autorelease();
-   pBWShaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-   pBWShaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-   pBWShaderProgram->link();
-   pBWShaderProgram->updateUniforms();
-   CCShaderCache::sharedShaderCache()->addProgram(pBWShaderProgram, "kGreyShaderProgram");
-
+   if (!pBWShaderProgram) {
+      CCGLProgram *pBWShaderProgram = new CCGLProgram();
+      pBWShaderProgram->initWithVertexShaderFilename("Grey.vsh", "Grey.fsh");
+      pBWShaderProgram->autorelease();
+      pBWShaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
+      pBWShaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+      pBWShaderProgram->link();
+      pBWShaderProgram->updateUniforms();
+      CCShaderCache::sharedShaderCache()->addProgram(pBWShaderProgram, "kGreyShaderProgram");
+   }
    sprite->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey("kGreyShaderProgram"));
    sprite->getShaderProgram()->use();
 

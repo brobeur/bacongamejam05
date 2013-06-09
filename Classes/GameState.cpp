@@ -54,22 +54,44 @@ int GameState::inactiveOpacity()
    return SIMP_MAX(0., 1. - (m_fSecondsAlive / kNewbieSecs)) * kNewbieOpacity;
 }
 
-void GameState::restartGame()
+void GameState::setRunner(Runner* r)
+{
+   m_pRunner = r;
+   m_pRunner->addSpeed(m_fSecondsAlive * .5 *  kAccelRate);
+}
+
+bool GameState::canRestart()
 {
    // only restart if the user had time to see the death screen
-   if (m_bDead && m_fDeadSecs < 1.5)
-      return;
+   return m_fDeadSecs > 1.5;
+}
+
+void GameState::restartGame()
+{
+
+   m_bLightOn = false;
+   m_pLayer = NULL;
+   m_pRunner = NULL;
 
    m_fDeadSecs = 0.;
    m_fHealth = kMaxHealth; // number of seconds you can take hits
-   m_pRunner->resetSpeed();
    m_fSecondsAlive *= 0.5;
    m_fDist = time_to_dist(m_fSecondsAlive);
-
-   m_pRunner->addSpeed(m_fSecondsAlive * .5 *  kAccelRate);
+   m_fSecondsAlive *= .5;
 
 
    m_bDead = false;
+
+
+   for (int i = 0; i < (int)m_vObjs.size(); i++) {
+      BackgroundPanel* obj;
+      obj = m_vObjs[i];
+
+      obj->removeFromParent();
+      obj->release();
+      m_vObjs.erase(m_vObjs.begin() + i);
+      i--; 
+   }   
 
    // get rid of previous traps
    for (int i = 0; i < (int)m_vTraps.size(); i++) {
@@ -80,15 +102,26 @@ void GameState::restartGame()
       trap->release();
       m_vTraps.erase(m_vTraps.begin() + i);
       i--; 
+   }
+
+   for (int i = 0; i < (int)m_vPickups.size(); i++) {
+      Pickup* pickup;
+      pickup = m_vPickups[i];
+
+      pickup->removeFromParent();
+      pickup->release();
+      m_vPickups.erase(m_vPickups.begin() + i);
+      i--; 
    }   
 
    // remove most children
+   /*
    CCNode* junk;
    while ((junk = m_pTopLayer->getChildByTag(-1))) {
       junk->removeFromParent();
    }
-
    m_pRunner->setHealth(1.);
+   */
 }
 
 /*
@@ -126,6 +159,10 @@ void GameState::updateTutorial()
 
 void GameState::update(float dt)
 {
+   // easiest way to check if we exited helloworld layer
+   if (!m_pLayer)
+      return;
+
    m_fSecsSinceSwitch += dt;
    WallTrap::setTimeSinceToggle(m_fSecondsAlive);
 
@@ -166,7 +203,7 @@ void GameState::update(float dt)
       m_pTopLayer->addChild(deadLabel);
 
       // retry from half way
-      snprintf(buf, 255, "Click to retry from %i pixels", (int)time_to_dist(m_fSecondsAlive * .5));
+      snprintf(buf, 255, "The nightmare will start from %i pixels", (int)time_to_dist(m_fSecondsAlive * .5));
 
       deadLabel = CCLabelTTF::create(buf, "fonts/Minecraftia.ttf", 28);
       deadLabel->setPosition(ccp(s.width / 2, s.height * .2));

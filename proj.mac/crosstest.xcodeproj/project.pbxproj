@@ -211,6 +211,9 @@
 		CF1B7EE41764A7F3007D7808 /* Coin.fsh in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EDF1764A7D9007D7808 /* Coin.fsh */; };
 		CF1B7EE51764A7F3007D7808 /* Coin.vsh in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EE01764A7D9007D7808 /* Coin.vsh */; };
 		CF1B7EE81764A8C8007D7808 /* Pickup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF1B7EE61764A8C8007D7808 /* Pickup.cpp */; };
+		CF1B7EEC1764C680007D7808 /* BGJ-SCENE3-BG-2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EE91764C680007D7808 /* BGJ-SCENE3-BG-2.png */; };
+		CF1B7EED1764C680007D7808 /* BGJ-SCENE3-BG.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EEA1764C680007D7808 /* BGJ-SCENE3-BG.png */; };
+		CF1B7EEE1764C680007D7808 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EEB1764C680007D7808 /* heart.png */; };
 		CFAECB21176248D2003E4CA9 /* MainScene.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB1F176248D2003E4CA9 /* MainScene.ccbi */; };
 		CFAECB22176248D2003E4CA9 /* ninjasprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB20176248D2003E4CA9 /* ninjasprite.png */; };
 		CFAECB24176248DC003E4CA9 /* second_screen.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB23176248DC003E4CA9 /* second_screen.ccbi */; };
@@ -602,6 +605,9 @@
 		CF1B7EE01764A7D9007D7808 /* Coin.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Coin.vsh; sourceTree = "<group>"; };
 		CF1B7EE61764A8C8007D7808 /* Pickup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pickup.cpp; path = ../Classes/Pickup.cpp; sourceTree = "<group>"; };
 		CF1B7EE71764A8C8007D7808 /* Pickup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Pickup.h; path = ../Classes/Pickup.h; sourceTree = "<group>"; };
+		CF1B7EE91764C680007D7808 /* BGJ-SCENE3-BG-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BGJ-SCENE3-BG-2.png"; sourceTree = "<group>"; };
+		CF1B7EEA1764C680007D7808 /* BGJ-SCENE3-BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BGJ-SCENE3-BG.png"; sourceTree = "<group>"; };
+		CF1B7EEB1764C680007D7808 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		CFAECB1F176248D2003E4CA9 /* MainScene.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = MainScene.ccbi; sourceTree = "<group>"; };
 		CFAECB20176248D2003E4CA9 /* ninjasprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ninjasprite.png; sourceTree = "<group>"; };
 		CFAECB23176248DC003E4CA9 /* second_screen.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = second_screen.ccbi; sourceTree = "<group>"; };
@@ -1233,6 +1239,9 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF1B7EE91764C680007D7808 /* BGJ-SCENE3-BG-2.png */,
+				CF1B7EEA1764C680007D7808 /* BGJ-SCENE3-BG.png */,
+				CF1B7EEB1764C680007D7808 /* heart.png */,
 				CF1B7EDE1764A7D9007D7808 /* bacon1.png */,
 				CF1B7EDF1764A7D9007D7808 /* Coin.fsh */,
 				CF1B7EE01764A7D9007D7808 /* Coin.vsh */,
@@ -1382,6 +1391,9 @@
 				CF1B7ED417648715007D7808 /* enemy1_0.png in Resources */,
 				CF1B7ED517648715007D7808 /* enemy2_0.png in Resources */,
 				CF1B7EE11764A7D9007D7808 /* bacon1.png in Resources */,
+				CF1B7EEC1764C680007D7808 /* BGJ-SCENE3-BG-2.png in Resources */,
+				CF1B7EED1764C680007D7808 /* BGJ-SCENE3-BG.png in Resources */,
+				CF1B7EEE1764C680007D7808 /* heart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

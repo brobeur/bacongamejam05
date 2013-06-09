@@ -73,7 +73,7 @@ BackgroundPanel* BackgroundPanel::createHack()
          pBWShaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
          pBWShaderProgram->link();
          pBWShaderProgram->updateUniforms();
-         CCShaderCache::sharedShaderCache()->addProgram(pBWShaderProgram, "kSwirlShaderProgram");
+         CCShaderCache::sharedShaderCache()->addProgram(pBWShaderProgram, "kPanelShaderProgram");
 
       }
 
