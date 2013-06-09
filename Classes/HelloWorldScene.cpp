@@ -247,16 +247,21 @@ void HelloWorld::extraSetup()
    m_pTopLayer->setContentSize(getContentSize());
    STATE->setTopLayer(m_pTopLayer);
 
+   CCSprite* heart = CCSprite::create("heart.png");
+   heart->setScale(.05 * s.height / heart->getContentSize().height);
+   heart->setPosition(ccp(s.width * .14, s.height * .84));
+   m_pTopLayer->addChild(heart);
+
 
    m_pHealthLabel = CCLabelTTF::create("HP", "fonts/Minecraftia.ttf", 20);
-   m_pHealthLabel->setPosition(ccp(s.width * .2, s.height * .85));
-   m_pHealthLabel->setColor(ccc3(255, 127, 127));
+   m_pHealthLabel->setPosition(ccp(heart->getScaleX() * heart->getContentSize().width + s.width * .14, s.height * .85));
+   m_pHealthLabel->setColor(ccc3(255, 255, 255));
    m_pHealthLabel->setTag(51);
    m_pTopLayer->addChild(m_pHealthLabel);
 
    m_pDistLabel = CCLabelTTF::create("HP", "fonts/Minecraftia.ttf", 20);
    m_pDistLabel->setPosition(ccp(s.width * .2, s.height * .8));
-   m_pDistLabel->setColor(ccc3(255, 188, 188));
+   m_pDistLabel->setColor(ccc3(255, 255, 255));
    m_pDistLabel->setTag(50);
    m_pTopLayer->addChild(m_pDistLabel);
    
@@ -282,7 +287,7 @@ void HelloWorld::updateUI(int health, int dist, bool visible)
       static int lastHealth = -1;
       char buf[128] = {0};
       if (lastHealth != health) {
-         snprintf(buf, 127, "%i HEALTHS", health);
+         snprintf(buf, 127, "%i", health);
          m_pHealthLabel->setString(buf);
       }
       snprintf(buf, 127, "%i PIXELS", dist);
