@@ -2,6 +2,7 @@
 #include "rs_util.h"
 #include "rs_geometry.h"
 
+#include "SimpleAudioEngine.h"
 #include "GameState.h"
 #include "Runner.h"
 #include "WallTrap.h"
@@ -82,6 +83,38 @@ void GameState::restartGame()
    m_pTopLayer->removeAllChildren();
    m_pRunner->setHealth(1.);
 }
+
+/*
+static float s_fMessageDist[] =
+   {
+      200,
+      1000,
+      5000,
+      10000
+   };
+
+static const char* s_sMessage[] =
+   {
+      "Hello"
+   };
+
+void GameState::updateTutorial()
+{
+   if (m_bDead)
+      return;
+
+   // first message at 100
+   for (int i = 0; i < kNumMessages; i++) {
+      if (!m_bMessageShown[i] && m_fDist > s_fMessageDist[i]) {
+      CCLabelTTF* label = CCLabelTTF::create(s_sMessage[i], "fonts/Minecraftia.ttf", 40);
+      label->setPosition(ccp(s.width / 2, s.height * .9));
+      label->setColor(ccc3(255,255,0));
+      m_pTopLayer->addChild(label);
+
+      }
+   }
+}
+*/
 
 void GameState::update(float dt)
 {
@@ -228,6 +261,10 @@ void GameState::update(float dt)
             m_fHealth -= dt;
             m_pRunner->setHealth( m_fHealth / kMaxHealth);
 
+            char soundName[32] = {0};
+            snprintf(soundName, 31, "sounds/Hit_Hurt%i.wav", randint(4));
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(soundName);
+
          }
       }
       if (pos.x + trap->getWidth() * .5 < 0) {
@@ -286,6 +323,15 @@ void GameState::toggleLight()
    for (int i = 0; i < (int)m_vTraps.size(); i++) {
       m_vTraps[i]->toggleOn(m_bLightOn);
    }
+
+   const char* soundName = (m_bLightOn ?
+                            "sounds/Lights0.wav" :
+                            "sounds/Lights1.wav");
+                            
+   CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(soundName);
+
+   CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(m_bLightOn ? 1. : .4);
+
 }
 
 GameState* GameState::instance()

@@ -241,7 +241,7 @@ void HelloWorld::extraSetup()
    STATE->setLayer(this);
    STATE->setRunner(runner);
    CCLog("updateschedule");
-
+   CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgjdemo.mp3", true);
 
    } else {

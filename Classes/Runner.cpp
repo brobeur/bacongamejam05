@@ -38,7 +38,7 @@ Runner* Runner::createHack()
    anim->addSpriteFrameWithFileName("runner/02.png");
    anim->addSpriteFrameWithFileName("runner/03.png");
 
-   anim->setDelayPerUnit(.16);
+   anim->setDelayPerUnit(.1);
    anim->setLoops(1);
 
    CCAnimate *theAnim = CCAnimate::create(anim); 
@@ -47,21 +47,46 @@ Runner* Runner::createHack()
    CCSize s = CCDirector::sharedDirector()->getWinSize();
    runner->setScale(.3 * s.height / sprite->getContentSize().height);
 
-   // make height a function of window
+   // use a shader program for grey
+   CCGLProgram *pBWShaderProgram = new CCGLProgram();
+   pBWShaderProgram->initWithVertexShaderFilename("Grey.vsh", "Grey.fsh");
+   pBWShaderProgram->autorelease();
+   pBWShaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
+   pBWShaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+   pBWShaderProgram->link();
+   pBWShaderProgram->updateUniforms();
+   CCShaderCache::sharedShaderCache()->addProgram(pBWShaderProgram, "kGreyShaderProgram");
 
+   sprite->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey("kGreyShaderProgram"));
+   sprite->getShaderProgram()->use();
+   /*
+   GLint myUniformLocation = glGetUniformLocation(sprite->getShaderProgram()->getProgram, "greyness");
+   glUniform1f(myUniformLocation, 0.);
+*/
+   // make height a function of window
    return runner;
 }
 
 void Runner::setHealth(float ratio)
 {
    CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
-   s->setOpacity(SIMP_MAX(0., ratio) * 255);
+   s->setOpacity(SIMP_MAX(0., ratio) * 128 + 127);
+
+   /*
+   GLint myUniformLocation = glGetUniformLocation(sprite->getShaderProgram()->getProgram, "greyness");
+   glUniform1f(myUniformLocation, 1. - SIMP_MAX(0., ratio));
+
+   */
 }
 
 float Runner::getWidth()
 {
+   static float minWidth = 10000;
    CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
-   return s->getContentSize().width * s->getScaleX() * getScaleX();
+   // use the smaller since the sprites are so varying in width
+   minWidth = eval_min(minWidth,
+                       s->getContentSize().width * s->getScaleX() * getScaleX());
+   return minWidth;
 }
 
 float Runner::getHeight()
