@@ -31,6 +31,8 @@ class GameState
    void restartGame();
    bool isDead(){return m_bDead;}
    int inactiveOpacity();
+
+   float secsSinceSwitch() {return m_fSecsSinceSwitch;}
  private:
    static GameState* pInst;
    GameState();
@@ -50,7 +52,7 @@ class GameState
 
    float m_fDistToNextTrap;
 
-
+   float m_fSecsSinceSwitch;
    float m_fSecondsAlive;
    float m_fMaxSecondsAlive;
    float m_fHealth; // number of seconds you can take hits

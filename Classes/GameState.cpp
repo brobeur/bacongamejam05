@@ -22,6 +22,7 @@ GameState:: GameState()
 
 void GameState::init()
 {
+   m_fSecsSinceSwitch = 0.;
    m_fDeadSecs = 0.;
    m_fZoom = 1.;
    m_bLightOn = false;
@@ -118,6 +119,9 @@ void GameState::updateTutorial()
 
 void GameState::update(float dt)
 {
+   m_fSecsSinceSwitch += dt;
+   WallTrap::setTimeSinceToggle(m_fSecondsAlive);
+
    CCSize s = CCDirector::sharedDirector()->getWinSize();
    if (m_bDead) {
       m_fDeadSecs += dt;
@@ -219,6 +223,8 @@ void GameState::update(float dt)
    for (int i = 0; i < (int)m_vTraps.size(); i++) {
       WallTrap* trap;
       trap = m_vTraps[i];
+
+      trap->update(dt);
       CCPoint pos = trap->getPosition();
       pos.x -= dt * m_pRunner->getSpeed();
       trap->setPosition(pos); 
@@ -315,6 +321,7 @@ void GameState::update(float dt)
 
 void GameState::toggleLight()
 {
+   m_fSecsSinceSwitch = 0;
    m_bLightOn = !m_bLightOn;
    for (unsigned int i = 0; i < m_vObjs.size(); i++) {
       m_vObjs[i]->toggleOn(m_bLightOn);

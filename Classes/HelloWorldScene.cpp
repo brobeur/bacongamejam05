@@ -234,7 +234,7 @@ void HelloWorld::extraSetup()
    Runner* runner = Runner::createHack();//
    //Runner* runner = RunnerLoader::loadFromFile();
    if (runner) {
-   runner->setPosition(ccp(s.width / 8, s.height / 4));
+   runner->setPosition(ccp(s.width * .16, s.height * .4));
    addChild(runner, 0);
    scheduleUpdate();
 

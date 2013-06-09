@@ -16,16 +16,21 @@ class WallTrap : public cocos2d::CCSprite
    WallTrap();
    virtual ~WallTrap();
    static WallTrap* createHack(bool light);
+   static void setTimeSinceToggle(float secs);
    //bool init();
    void toggleOn(bool on);
    bool isDangerous();
    void setWidth(float width);
    float getWidth(){return m_fWidth;}
+
+   void update(float dt);
+   void draw();
  protected:
    bool m_bLightOn;
    bool m_bLight;
 
    float m_fWidth;
+   float m_fSecsExisted;
 };
 
 #endif

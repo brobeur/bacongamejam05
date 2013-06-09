@@ -1,3 +1,5 @@
+#include "rs_util.h"
+
 #include "GameState.h"
 
 #include "BackgroundPanel.h"
@@ -42,6 +44,9 @@ void BackgroundPanel::toggleOn(bool on)
    */
 }
 
+static CCGLProgram *pBWShaderProgram;
+static GLint timeUniformLocation;
+
 
 BackgroundPanel* BackgroundPanel::createHack()
 {
@@ -55,8 +60,38 @@ BackgroundPanel* BackgroundPanel::createHack()
       panel->setScale(.8 * s.height / panel->getContentSize().height);
 
       panel->autorelease();
+
+
+      if (!pBWShaderProgram) {
+         pBWShaderProgram = new CCGLProgram();
+         pBWShaderProgram->initWithVertexShaderFilename("Panel.vsh", "Panel.fsh");
+         pBWShaderProgram->autorelease();
+         pBWShaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
+         pBWShaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+         pBWShaderProgram->link();
+         pBWShaderProgram->updateUniforms();
+         CCShaderCache::sharedShaderCache()->addProgram(pBWShaderProgram, "kSwirlShaderProgram");
+
+      }
+
+      panel->setShaderProgram(pBWShaderProgram);
+      panel->getShaderProgram()->use();
+
+      timeUniformLocation = glGetUniformLocation(panel->getShaderProgram()->getProgram(), "timeratio");
+      glUniform1f(timeUniformLocation, 0.);
+
+
       return panel;
    }
    CC_SAFE_DELETE(panel);
    return panel;
+}
+
+void BackgroundPanel::draw()
+{
+   if (pBWShaderProgram) {
+      pBWShaderProgram->use();
+      glUniform1f(timeUniformLocation, eval_min(1., 8 * STATE->secsSinceSwitch()));
+   }
+   CCSprite::draw();
 }
