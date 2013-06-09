@@ -60,6 +60,11 @@ CCScene* TitleScreen::scene()
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("titlescreenloop.mp3", true);
 
 
+    // hack to scale to size
+    CCSprite* background = dynamic_cast<CCSprite*>(layer->getChildByTag(100));
+    if (background) {
+       layer->setScale(background->getScaleX() * background->getContentSize().width / layer->getContentSize().width);
+    }
    // return the scene
    return scene;
 }
