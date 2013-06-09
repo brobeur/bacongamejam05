@@ -1641,7 +1641,7 @@
 					"-O2",
 					"-DKEYBOARD_SUPPORT",
 				);
-				PRODUCT_NAME = crosstest;
+				PRODUCT_NAME = "Surreal Warp Nightmare";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64";
@@ -1686,7 +1686,7 @@
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DKEYBOARD_SUPPORT",
 				);
-				PRODUCT_NAME = crosstest;
+				PRODUCT_NAME = "Surreal Warp Nightmare";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
