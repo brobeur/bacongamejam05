@@ -63,7 +63,12 @@ CCScene* TitleScreen::scene()
     // hack to scale to size
     CCNode* background = dynamic_cast<CCNode*>(layer->getChildByTag(100));
     if (background) {
-       layer->setScale(background->getScaleX() * background->getContentSize().width / layer->getContentSize().width);
+       CCSize s = CCDirector::sharedDirector()->getWinSize();
+
+       background->setScale(s.height / (background->getContentSize().height) );
+       background->setPosition(ccp(s.width / 2, s.height / 2));
+    } else {
+       CCLog("Couldn't find bg via tag");
     }
    // return the scene
    return scene;
