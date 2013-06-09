@@ -188,6 +188,7 @@
 		CF1B7EB917636CF9007D7808 /* WallTrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF1B7EB117636CF9007D7808 /* WallTrap.cpp */; };
 		CF1B7EBC17636D40007D7808 /* CCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF1B7EBA17636D40007D7808 /* CCData.cpp */; };
 		CF1B7EBE17636DF8007D7808 /* title_screen.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EBD17636DF8007D7808 /* title_screen.ccbi */; };
+		CF1B7EC0176415D6007D7808 /* runner in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EBF176415D6007D7808 /* runner */; };
 		CFAECB21176248D2003E4CA9 /* MainScene.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB1F176248D2003E4CA9 /* MainScene.ccbi */; };
 		CFAECB22176248D2003E4CA9 /* ninjasprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB20176248D2003E4CA9 /* ninjasprite.png */; };
 		CFAECB24176248DC003E4CA9 /* second_screen.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB23176248DC003E4CA9 /* second_screen.ccbi */; };
@@ -563,6 +564,7 @@
 		CF1B7EBA17636D40007D7808 /* CCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCData.cpp; sourceTree = "<group>"; };
 		CF1B7EBB17636D40007D7808 /* CCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCData.h; sourceTree = "<group>"; };
 		CF1B7EBD17636DF8007D7808 /* title_screen.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = title_screen.ccbi; sourceTree = "<group>"; };
+		CF1B7EBF176415D6007D7808 /* runner */ = {isa = PBXFileReference; lastKnownFileType = folder; path = runner; sourceTree = "<group>"; };
 		CFAECB1F176248D2003E4CA9 /* MainScene.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = MainScene.ccbi; sourceTree = "<group>"; };
 		CFAECB20176248D2003E4CA9 /* ninjasprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ninjasprite.png; sourceTree = "<group>"; };
 		CFAECB23176248DC003E4CA9 /* second_screen.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = second_screen.ccbi; sourceTree = "<group>"; };
@@ -1192,6 +1194,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF1B7EBF176415D6007D7808 /* runner */,
 				CF1B7EBD17636DF8007D7808 /* title_screen.ccbi */,
 				CF1B7E9517636CC5007D7808 /* bgjdemo.mp3 */,
 				CF1B7E9617636CC5007D7808 /* ccbResources */,
@@ -1313,6 +1316,7 @@
 				CF1B7EA117636CC5007D7808 /* lightsout-character.png in Resources */,
 				CF1B7EA217636CC5007D7808 /* ninjaspritedark.png in Resources */,
 				CF1B7EBE17636DF8007D7808 /* title_screen.ccbi in Resources */,
+				CF1B7EC0176415D6007D7808 /* runner in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
