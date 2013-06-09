@@ -21,7 +21,7 @@ void main()
    float squish = abs(sin(timeratio * 3. + sin(timeratio * 2.)));
 
    float greyness = 1. - analpha;
-   float colorness = 1. - greyness;
+   float colorness = 1. - greyness + .5;
 
     vec4 normalColor = texture2D(u_texture, fract(vec2(offset, v_texCoord.y * squish + v_texCoord.y * (1.0 - squish) * .5)));
 
