@@ -242,7 +242,7 @@ void HelloWorld::extraSetup()
    STATE->setRunner(runner);
    CCLog("updateschedule");
    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgjdemo.mp3", true);
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("BGJ-done.mp3", true);
 
    } else {
    CCLog("RUNNELOADFAIL");

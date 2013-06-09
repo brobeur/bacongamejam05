@@ -23,6 +23,8 @@ class Runner : public cocos2d::CCNode
    float getWidth();
    float getHeight();
 
+   void draw();
+
    void setHealth(float ratio);//1. best. 0. dead
    //bool init();
  private:

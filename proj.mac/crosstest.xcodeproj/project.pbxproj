@@ -172,7 +172,6 @@
 		41BC70E815BF81A5006A0A6C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BC70E115BF81A5006A0A6C /* main.m */; };
 		8C583FAD169DB6D500F63A10 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C583FA8169DB6D500F63A10 /* CCEditBox.cpp */; };
 		8C583FAE169DB6D500F63A10 /* CCEditBoxImplMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8C583FAC169DB6D500F63A10 /* CCEditBoxImplMac.mm */; };
-		CF1B7E9C17636CC5007D7808 /* bgjdemo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7E9517636CC5007D7808 /* bgjdemo.mp3 */; };
 		CF1B7E9D17636CC5007D7808 /* ccbResources in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7E9617636CC5007D7808 /* ccbResources */; };
 		CF1B7E9E17636CC5007D7808 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7E9717636CC5007D7808 /* fonts */; };
 		CF1B7E9F17636CC5007D7808 /* lightsout-1-color.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7E9817636CC5007D7808 /* lightsout-1-color.png */; };
@@ -195,6 +194,7 @@
 		CF1B7EC917643CA3007D7808 /* Grey.fsh in Sources */ = {isa = PBXBuildFile; fileRef = CF1B7EC317643915007D7808 /* Grey.fsh */; };
 		CF1B7ECA17643CC6007D7808 /* Grey.fsh in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EC317643915007D7808 /* Grey.fsh */; };
 		CF1B7ECB17643CC6007D7808 /* Grey.vsh in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7EC417643915007D7808 /* Grey.vsh */; };
+		CF1B7ECD17645194007D7808 /* BGJ-done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF1B7ECC17645193007D7808 /* BGJ-done.mp3 */; };
 		CFAECB21176248D2003E4CA9 /* MainScene.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB1F176248D2003E4CA9 /* MainScene.ccbi */; };
 		CFAECB22176248D2003E4CA9 /* ninjasprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB20176248D2003E4CA9 /* ninjasprite.png */; };
 		CFAECB24176248DC003E4CA9 /* second_screen.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFAECB23176248DC003E4CA9 /* second_screen.ccbi */; };
@@ -544,7 +544,6 @@
 		8C583FAA169DB6D500F63A10 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEditBoxImpl.h; path = CCEditBox/CCEditBoxImpl.h; sourceTree = "<group>"; };
 		8C583FAB169DB6D500F63A10 /* CCEditBoxImplMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEditBoxImplMac.h; path = CCEditBox/CCEditBoxImplMac.h; sourceTree = "<group>"; };
 		8C583FAC169DB6D500F63A10 /* CCEditBoxImplMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCEditBoxImplMac.mm; path = CCEditBox/CCEditBoxImplMac.mm; sourceTree = "<group>"; };
-		CF1B7E9517636CC5007D7808 /* bgjdemo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgjdemo.mp3; sourceTree = "<group>"; };
 		CF1B7E9617636CC5007D7808 /* ccbResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ccbResources; sourceTree = "<group>"; };
 		CF1B7E9717636CC5007D7808 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		CF1B7E9817636CC5007D7808 /* lightsout-1-color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightsout-1-color.png"; sourceTree = "<group>"; };
@@ -575,6 +574,7 @@
 		CF1B7EC317643915007D7808 /* Grey.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Grey.fsh; sourceTree = "<group>"; };
 		CF1B7EC417643915007D7808 /* Grey.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Grey.vsh; sourceTree = "<group>"; };
 		CF1B7EC517643915007D7808 /* titlescreenloop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = titlescreenloop.mp3; sourceTree = "<group>"; };
+		CF1B7ECC17645193007D7808 /* BGJ-done.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "BGJ-done.mp3"; sourceTree = "<group>"; };
 		CFAECB1F176248D2003E4CA9 /* MainScene.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = MainScene.ccbi; sourceTree = "<group>"; };
 		CFAECB20176248D2003E4CA9 /* ninjasprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ninjasprite.png; sourceTree = "<group>"; };
 		CFAECB23176248DC003E4CA9 /* second_screen.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = second_screen.ccbi; sourceTree = "<group>"; };
@@ -1204,13 +1204,13 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF1B7ECC17645193007D7808 /* BGJ-done.mp3 */,
 				CF1B7EC317643915007D7808 /* Grey.fsh */,
 				CF1B7EC417643915007D7808 /* Grey.vsh */,
 				CF1B7EC517643915007D7808 /* titlescreenloop.mp3 */,
 				CF1B7EC117642421007D7808 /* sounds */,
 				CF1B7EBF176415D6007D7808 /* runner */,
 				CF1B7EBD17636DF8007D7808 /* title_screen.ccbi */,
-				CF1B7E9517636CC5007D7808 /* bgjdemo.mp3 */,
 				CF1B7E9617636CC5007D7808 /* ccbResources */,
 				CF1B7E9717636CC5007D7808 /* fonts */,
 				CF1B7E9817636CC5007D7808 /* lightsout-1-color.png */,
@@ -1324,7 +1324,6 @@
 				CFAECB21176248D2003E4CA9 /* MainScene.ccbi in Resources */,
 				CFAECB22176248D2003E4CA9 /* ninjasprite.png in Resources */,
 				CFAECB24176248DC003E4CA9 /* second_screen.ccbi in Resources */,
-				CF1B7E9C17636CC5007D7808 /* bgjdemo.mp3 in Resources */,
 				CF1B7E9D17636CC5007D7808 /* ccbResources in Resources */,
 				CF1B7E9E17636CC5007D7808 /* fonts in Resources */,
 				CF1B7E9F17636CC5007D7808 /* lightsout-1-color.png in Resources */,
@@ -1335,6 +1334,7 @@
 				CF1B7EC0176415D6007D7808 /* runner in Resources */,
 				CF1B7EC217642421007D7808 /* sounds in Resources */,
 				CF1B7EC817643915007D7808 /* titlescreenloop.mp3 in Resources */,
+				CF1B7ECD17645194007D7808 /* BGJ-done.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

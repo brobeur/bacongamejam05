@@ -64,7 +64,7 @@ Runner* Runner::createHack()
    sprite->getShaderProgram()->use();
 
    myUniformLocation = glGetUniformLocation(sprite->getShaderProgram()->getProgram(), "greyness");
-   glUniform1f(myUniformLocation, 1.);
+   glUniform1f(myUniformLocation, 0.);
 
    // make height a function of window
    return runner;
@@ -94,6 +94,13 @@ float Runner::getHeight()
    return s->getContentSize().height * s->getScaleY() * getScaleY();
 }
 
+void Runner::draw()
+{
+   // don't draw when dead
+   CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
+   s->setVisible(!STATE->isDead());
+   CCNode::draw();
+}
 
 /*
 bool Runner::init()
