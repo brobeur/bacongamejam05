@@ -21,6 +21,9 @@ void Runner::resetSpeed()
 {
    m_fSpeed = kInitialSpeed;
 }
+
+static GLint myUniformLocation;
+
 Runner* Runner::createHack()
 {
    Runner* runner = Runner::create();
@@ -59,10 +62,10 @@ Runner* Runner::createHack()
 
    sprite->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey("kGreyShaderProgram"));
    sprite->getShaderProgram()->use();
-   /*
-   GLint myUniformLocation = glGetUniformLocation(sprite->getShaderProgram()->getProgram, "greyness");
-   glUniform1f(myUniformLocation, 0.);
-*/
+
+   myUniformLocation = glGetUniformLocation(sprite->getShaderProgram()->getProgram(), "greyness");
+   glUniform1f(myUniformLocation, 1.);
+
    // make height a function of window
    return runner;
 }
@@ -71,12 +74,8 @@ void Runner::setHealth(float ratio)
 {
    CCSprite* s = dynamic_cast<CCSprite*>(m_pChildren->objectAtIndex(0));
    s->setOpacity(SIMP_MAX(0., ratio) * 128 + 127);
-
-   /*
-   GLint myUniformLocation = glGetUniformLocation(sprite->getShaderProgram()->getProgram, "greyness");
+   s->getShaderProgram()->use();
    glUniform1f(myUniformLocation, 1. - SIMP_MAX(0., ratio));
-
-   */
 }
 
 float Runner::getWidth()

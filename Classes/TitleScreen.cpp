@@ -56,6 +56,7 @@ CCScene* TitleScreen::scene()
    // add layer as a child to scene
    scene->addChild(layer);
 
+   CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("titlescreenloop.mp3", true);
 
 
