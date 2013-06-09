@@ -26,8 +26,24 @@ Runner* Runner::createHack()
    Runner* runner = Runner::create();
 
    // add a ccnode
-   CCSprite* sprite = CCSprite::create("lightsout-character.png");
+   CCSprite* sprite = CCSprite::create("runner/00.png");
    runner->addChild(sprite);
+
+   // There are other several ways of storing + adding frames, 
+   // this is the most basic using one image per frame.
+   CCAnimation * anim = CCAnimation::create();
+
+   anim->addSpriteFrameWithFileName("runner/00.png");
+   anim->addSpriteFrameWithFileName("runner/01.png");
+   anim->addSpriteFrameWithFileName("runner/02.png");
+   anim->addSpriteFrameWithFileName("runner/03.png");
+
+   anim->setDelayPerUnit(.16);
+   anim->setLoops(1);
+
+   CCAnimate *theAnim = CCAnimate::create(anim); 
+   sprite->runAction(CCRepeatForever::create(theAnim));
+
    CCSize s = CCDirector::sharedDirector()->getWinSize();
    runner->setScale(.3 * s.height / sprite->getContentSize().height);
 

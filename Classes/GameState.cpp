@@ -92,6 +92,10 @@ void GameState::update(float dt)
 
    // if health is gone you're dead
    if (m_fHealth <= 0 && !m_bDead) {
+      // cache best score
+      m_fMaxDist = SIMP_MAX(m_fDist, m_fMaxDist);
+      m_fMaxSecondsAlive = SIMP_MAX(m_fSecondsAlive, m_fMaxSecondsAlive);
+
       CCLabelTTF* deadLabel = CCLabelTTF::create("GAME OVER", "fonts/Minecraftia.ttf", 40);
       deadLabel->setPosition(ccp(s.width / 2, s.height * .9));
       deadLabel->setColor(ccc3(255,0,0));
@@ -105,6 +109,15 @@ void GameState::update(float dt)
 
       m_pTopLayer->addChild(deadLabel);
       m_bDead = true;
+      if (m_fMaxDist != m_fDist) 
+         snprintf(buf, 255, "Best so far: %i pixels", (int)m_fMaxDist);
+      else
+         snprintf(buf, 255, "New best!");
+      deadLabel = CCLabelTTF::create(buf, "fonts/Minecraftia.ttf", 28);
+      deadLabel->setPosition(ccp(s.width / 2, s.height * .4));
+      deadLabel->setColor(ccc3(255,0,0));
+
+      m_pTopLayer->addChild(deadLabel);
 
       // retry from half way
       snprintf(buf, 255, "Click to retry from %i pixels", (int)time_to_dist(m_fSecondsAlive * .5));
