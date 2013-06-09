@@ -42,9 +42,12 @@ public:
 
    static HelloWorld* createHack();
 
+   void updateUI(int health, int dist, bool visible);
 private:
    //cocos2d::CCTexture2D* m_pSpriteTexture; // weak ref
-   //cocos2d::CCLabelTTF* m_pLabel;
+   cocos2d::CCLabelTTF* m_pHealthLabel;
+   cocos2d::CCLabelTTF* m_pDistLabel;
+   cocos2d::CCLayer* m_pTopLayer;
    cpSpace* m_pSpace; // strong ref
    cpShape* m_pWalls[4];
 };

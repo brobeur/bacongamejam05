@@ -82,7 +82,12 @@ void GameState::restartGame()
       i--; 
    }   
 
-   m_pTopLayer->removeAllChildren();
+   // remove most children
+   CCNode* junk;
+   while ((junk = m_pTopLayer->getChildByTag(-1))) {
+      junk->removeFromParent();
+   }
+
    m_pRunner->setHealth(1.);
 }
 
@@ -118,10 +123,13 @@ void GameState::updateTutorial()
 }
 */
 
+
 void GameState::update(float dt)
 {
    m_fSecsSinceSwitch += dt;
    WallTrap::setTimeSinceToggle(m_fSecondsAlive);
+
+   m_pLayer->updateUI((int)(m_fHealth * 20), (int)m_fDist, !m_bDead);
 
    CCSize s = CCDirector::sharedDirector()->getWinSize();
    if (m_bDead) {

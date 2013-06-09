@@ -103,13 +103,10 @@ CCScene* HelloWorld::scene()
    // add layer as a child to scene
    scene->addChild(layer);
 
-   CCLayer* topLayer = CCLayer::create();
-   topLayer->setPosition(layer->getPosition());
-   topLayer->setContentSize(layer->getContentSize());
-   scene->addChild(topLayer);
-   STATE->setTopLayer(topLayer);
 
    layer->extraSetup();
+   // only valid after extraSetup
+   scene->addChild(layer->m_pTopLayer);
 
    // return the scene
    return scene;
@@ -240,7 +237,30 @@ void HelloWorld::extraSetup()
 
    STATE->setLayer(this);
    STATE->setRunner(runner);
-   CCLog("updateschedule");
+
+
+   //cocos2d::CCTexture2D* m_pSpriteTexture; // weak ref
+   // weak ref
+   m_pTopLayer = CCLayer::create();
+   m_pTopLayer->setPosition(getPosition());
+   m_pTopLayer->setContentSize(getContentSize());
+   STATE->setTopLayer(m_pTopLayer);
+
+
+   m_pHealthLabel = CCLabelTTF::create("HP", "fonts/Minecraftia.ttf", 20);
+   m_pHealthLabel->setPosition(ccp(s.width * .2, s.height * .85));
+   m_pHealthLabel->setColor(ccc3(255, 127, 127));
+   m_pHealthLabel->setTag(51);
+   m_pTopLayer->addChild(m_pHealthLabel);
+
+   m_pDistLabel = CCLabelTTF::create("HP", "fonts/Minecraftia.ttf", 20);
+   m_pDistLabel->setPosition(ccp(s.width * .2, s.height * .8));
+   m_pDistLabel->setColor(ccc3(255, 188, 188));
+   m_pDistLabel->setTag(50);
+   m_pTopLayer->addChild(m_pDistLabel);
+   
+
+
    CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("BGJ-done.mp3", true);
 
@@ -250,6 +270,26 @@ void HelloWorld::extraSetup()
    }
 
 }
+
+void HelloWorld::updateUI(int health, int dist, bool visible)
+{
+   m_pHealthLabel->setVisible(visible);
+   m_pDistLabel->setVisible(visible);
+
+   if (visible) {
+      //cache cause i don't think they do
+      static int lastHealth = -1;
+      char buf[128] = {0};
+      if (lastHealth != health) {
+         snprintf(buf, 127, "%i HEALTHS", health);
+         m_pHealthLabel->setString(buf);
+      }
+      snprintf(buf, 127, "%i PIXELS", dist);
+      m_pDistLabel->setString(buf);
+   }
+}
+
+
 
 void HelloWorld::update(float delta)
 {
