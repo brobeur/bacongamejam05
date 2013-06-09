@@ -337,7 +337,7 @@ void GameState::update(float dt)
             
             // subtract health
             m_iPickups += 1;
-            m_fHealth += dt * .5;
+            m_fHealth = SIMP_MIN(kMaxHealth, m_fHealth + dt);
             //m_pRunner->setHealth( m_fHealth / kMaxHealth);
 
             char soundName[32] = {0};

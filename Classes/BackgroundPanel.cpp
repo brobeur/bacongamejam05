@@ -19,12 +19,15 @@ BackgroundPanel::~BackgroundPanel()
 }
 
 const char* darkpanelpngs[] = {
+   "BGJ-SCENE3-BG-2.png"
    //   "ninjasprite.png"
-      "lightsout-1-gray.png"
+   //      "lightsout-1-gray.png"
+   
 };
 
 const char* lightpanelpngs[] = {
-   "lightsout-1-color.png"
+   "BGJ-SCENE3-BG.png"
+//   "lightsout-1-color.png"
 };
 
 void BackgroundPanel::toggleOn(bool on)
