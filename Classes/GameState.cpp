@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "Runner.h"
 #include "WallTrap.h"
+#include "Pickup.h"
 #include "HelloWorldScene.h"
 #include "BackgroundPanel.h"
 USING_NS_CC;
@@ -281,6 +282,71 @@ void GameState::update(float dt)
       }
    }
 
+   for (int i = 0; i < (int)m_vPickups.size(); i++) {
+      bool pickedUp = false;
+      Pickup* pickup;
+      pickup = m_vPickups[i];
+
+      pickup->update(dt);
+      CCPoint pos = pickup->getPosition();
+      pos.x -= dt * m_pRunner->getSpeed();
+      pickup->setPosition(pos); 
+
+      // check for overlap
+      if (pickup->isDangerous() && !m_bDead) {
+         RSCube pickupCube;
+         pickupCube.pos.x = pos.x;
+         pickupCube.pos.y = pos.y;
+         pickupCube.pos.z = 0.;
+         pickupCube.size.x = pickup->getScaleX() * pickup->getContentSize().width;
+         pickupCube.size.y = pickup->getScaleY() * pickup->getContentSize().height;
+         pickupCube.size.z = 1.;
+
+         int res;
+         if (rs_cube_overlaps(&runnerCube, &pickupCube, &res)) {
+            // collide
+            // flash red or something
+            CCLabelTTF* owLabel;
+            
+            owLabel = CCLabelTTF::create("NOM", "fonts/Minecraftia.ttf", 40);
+            owLabel->setPosition(ccp(runnerCube.pos.x, runnerCube.pos.y + runnerCube.size.y * .7));
+
+            CCFiniteTimeAction *seq = CCSequence::createWithTwoActions(
+                                                                       CCMoveTo::create(.5f, ccp(runnerCube.pos.x, runnerCube.pos.y + runnerCube.size.y * .8)),
+                                                                       CCCallFuncN::create(owLabel, callfuncN_selector(CCNode::removeFromParentAndCleanup))
+                                                                       
+                                                                       );
+            m_pLayer->addChild(owLabel);
+            owLabel->setColor(ccc3(30,140,87));
+            owLabel->runAction(seq);
+
+            // shake them
+            seq = CCSequence::createWithTwoActions(                             CCMoveTo::create(dt,
+                                                                                                 ccp(pickupCube.pos.x + randint(15) - 7, pickupCube.pos.y + randint(15) - 7)),
+                                                                                CCMoveTo::create(dt,                                                                    ccp(pickupCube.pos.x, pickupCube.pos.y)));
+ 
+            pickup->runAction(seq);
+            
+            // subtract health
+            m_iPickups += 1;
+            //m_pRunner->setHealth( m_fHealth / kMaxHealth);
+
+            char soundName[32] = {0};
+            snprintf(soundName, 31, "sounds/Pickup_Coin%i.wav", randint(5));
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(soundName);
+            pickedUp = true;
+         }
+      }
+      if (pickedUp || 
+          (pos.x + pickup->getContentSize().width * pickup->getScaleX() * .5 < 0)) {
+         pickup->removeFromParent();
+         pickup->release();
+         m_vPickups.erase(m_vPickups.begin() + i);
+         i--; 
+      }
+   }
+
+
    // add them
    if (m_fDistToNextTrap <= 0) {
       // add a trap of some length
@@ -302,10 +368,27 @@ void GameState::update(float dt)
          m_pLayer->addChild(trap);
          trap->retain();
          m_vTraps.push_back(trap);
+
       }
 
       // do some 
       m_fDistToNextTrap = runnerWidth * 1.2 + trapWidth + randfloat(.5) * s.width / m_fZoom;      
+
+      // after the last trap add some bacons?
+      // low chance of 1 2 or 3 bacons
+      int numPickups = randint(26) - 20; 
+      for (int i = 0; i < numPickups; i++) {
+         Pickup* pickup = Pickup::createHack(randint(2));
+         pickup->setPosition(ccp(trap->getPosition().x + trapWidth * .5 + m_fDistToNextTrap * (i + .5) / numPickups,
+                                 s.height * .3));
+         if (m_pLayer) {
+            m_pLayer->addChild(pickup);
+            pickup->retain();
+            m_vPickups.push_back(pickup);
+         }
+         
+      }
+
    }
 
    // faster and faster at 1 pixel / s*s
@@ -329,6 +412,10 @@ void GameState::toggleLight()
 
    for (int i = 0; i < (int)m_vTraps.size(); i++) {
       m_vTraps[i]->toggleOn(m_bLightOn);
+   }
+
+   for (int i = 0; i < (int)m_vPickups.size(); i++) {
+      m_vPickups[i]->toggleOn(m_bLightOn);
    }
 
    const char* soundName = (m_bLightOn ?

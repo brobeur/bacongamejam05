@@ -10,6 +10,7 @@ class HelloWorld;
 class Runner;
 class BackgroundPanel;
 class WallTrap;
+class Pickup;
 
 #define STATE (GameState::instance())
 
@@ -44,8 +45,7 @@ class GameState
    Runner* m_pRunner;
    //cocos2d::CCArray* m_pEntities;
    std::vector<BackgroundPanel*> m_vObjs;
-   std::vector<WallTrap*> m_vLightTraps;
-   std::vector<WallTrap*> m_vDarkTraps;
+   std::vector<Pickup*> m_vPickups;
    std::vector<WallTrap*> m_vTraps;
 
    float m_fZoom;
@@ -62,6 +62,8 @@ class GameState
 
    // timer to prevent sudden click
    float m_fDeadSecs;
+
+   int  m_iPickups;
 };
 
 #endif
