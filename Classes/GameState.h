@@ -34,6 +34,8 @@ class GameState
    int inactiveOpacity();
    bool canRestart();
    float secsSinceSwitch() {return m_fSecsSinceSwitch;}
+
+   void resetScore();
  private:
    static GameState* pInst;
    GameState();

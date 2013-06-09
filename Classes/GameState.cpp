@@ -14,11 +14,27 @@ USING_NS_CC_EXT;
 
 #define kAccelRate (8)
 
+#define kMaxSecondsAliveKey "savesecskey"
+#define kMaxDistKey "savedistkey"
+
 GameState* GameState::pInst;
 
 GameState:: GameState()
 {
 
+}
+
+void GameState::resetScore()
+{
+   m_fDist = 0.;
+   m_fSecondsAlive = 0.;
+   m_fMaxSecondsAlive = 0.;
+   CCUserDefault::sharedUserDefault()->setFloatForKey(kMaxSecondsAliveKey, m_fMaxSecondsAlive);
+   CCUserDefault::sharedUserDefault()->setFloatForKey(kMaxDistKey, m_fMaxDist);
+   CCUserDefault::sharedUserDefault()->flush();      
+            char soundName[32] = {0};
+            snprintf(soundName, 31, "sounds/Hit_Hurt%i.wav", randint(4));
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(soundName);
 }
 
 void GameState::init()
@@ -33,6 +49,11 @@ void GameState::init()
 
    m_fSecondsAlive = 0.;
    m_fMaxSecondsAlive = 0.;
+
+    m_fMaxSecondsAlive = CCUserDefault::sharedUserDefault()->getFloatForKey(kMaxSecondsAliveKey, m_fMaxSecondsAlive);
+    m_fMaxDist = CCUserDefault::sharedUserDefault()->getFloatForKey(kMaxDistKey, m_fMaxDist);
+
+
    m_fHealth = kMaxHealth; // number of seconds you can take hits
    m_fDist = 0.;
    m_fMaxDist = 0.;
@@ -57,7 +78,7 @@ int GameState::inactiveOpacity()
 void GameState::setRunner(Runner* r)
 {
    m_pRunner = r;
-   m_pRunner->addSpeed(m_fSecondsAlive * .5 *  kAccelRate);
+   m_pRunner->addSpeed(m_fMaxSecondsAlive * .5 *  kAccelRate);
 }
 
 bool GameState::canRestart()
@@ -203,13 +224,17 @@ void GameState::update(float dt)
       m_pTopLayer->addChild(deadLabel);
 
       // retry from half way
-      snprintf(buf, 255, "The nightmare will start from %i pixels", (int)time_to_dist(m_fSecondsAlive * .5));
+      snprintf(buf, 255, "Next nightmare will start from %i pixels", (int)time_to_dist(m_fMaxSecondsAlive * .5));
 
       deadLabel = CCLabelTTF::create(buf, "fonts/Minecraftia.ttf", 28);
       deadLabel->setPosition(ccp(s.width / 2, s.height * .2));
       deadLabel->setColor(ccc3(255,0,0));
       m_pTopLayer->addChild(deadLabel);
 
+      // save
+      CCUserDefault::sharedUserDefault()->setFloatForKey(kMaxSecondsAliveKey, m_fMaxSecondsAlive);
+      CCUserDefault::sharedUserDefault()->setFloatForKey(kMaxDistKey, m_fMaxDist);
+      CCUserDefault::sharedUserDefault()->flush();      
       return;
    }
 

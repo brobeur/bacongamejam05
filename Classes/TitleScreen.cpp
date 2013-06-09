@@ -8,6 +8,7 @@
 
 #include "RSCCBMacros.h"
 
+#include "GameState.h"
 #include "TitleScreen.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
@@ -33,6 +34,7 @@ SEL_MenuHandler TitleScreen::onResolveCCBCCMenuItemSelector(CCObject * pTarget, 
 SEL_CCControlHandler TitleScreen::onResolveCCBCCControlSelector(CCObject * pTarget, const char * pSelectorName) {
    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onStart", TitleScreen::onStart);
    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onQuit", TitleScreen::onQuit);
+   CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onResetScore", TitleScreen::onResetScore);
     
    return NULL;
 }
@@ -48,6 +50,11 @@ void TitleScreen::onStart(CCObject * pSender, cocos2d::extension::CCControlEvent
 void TitleScreen::onQuit(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent)
 {
    CCDirector::sharedDirector()->end();
+}
+
+void TitleScreen::onResetScore(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent)
+{
+   STATE->resetScore();
 }
 
 

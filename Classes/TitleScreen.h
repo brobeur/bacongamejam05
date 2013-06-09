@@ -23,6 +23,7 @@ public:
 
    void onStart(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
    void onQuit(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
+   void onResetScore(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
 private:
 };

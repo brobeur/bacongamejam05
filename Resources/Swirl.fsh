@@ -27,6 +27,6 @@ void main()
 
     float gray = greyness * (0.299*normalColor.r + 0.587*normalColor.g + 0.114*normalColor.b);
 
-   gl_FragColor = vec4(gray + normalColor.r * colorness, gray + normalColor.g * colorness, gray + normalColor.b * colorness, analpha * normalColor.a);
+   gl_FragColor = analpha * vec4(gray + normalColor.r * colorness, gray + normalColor.g * colorness, gray + normalColor.b * colorness, normalColor.a);
 }
 
